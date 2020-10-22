@@ -37,7 +37,18 @@ app.post("/api/notes", function(req, res) {
 });
 
 app.delete("/api/notes/:id", function(req, res) {
-
+    const { id } = req.params;
+    let noteArray = JSON.parse(fs.readFileSync("./db/db.json", "utf8"));
+    console.log(noteArray)
+    console.log(id);
+    for (let i = 0; i < noteArray.length; i++) {
+        if (noteArray[i].id == id) {
+            noteArray.splice(i, 1);
+            fs.writeFileSync("./db/db.json", JSON.stringify(noteArray), "utf8");
+            res.json(noteArray);
+            break;
+        }
+    }
 });
 
 
